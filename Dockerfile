@@ -10,8 +10,9 @@ RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
     ninja-build \
-    ninja \
     && rm -rf /var/lib/apt/lists/*
+
+RUN ninja --version
 
 RUN pip3 install conan
 
