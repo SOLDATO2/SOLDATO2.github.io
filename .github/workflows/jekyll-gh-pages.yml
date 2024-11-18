@@ -24,10 +24,12 @@ jobs:
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
-      - name: Configurar Ruby Localmente
+      - name: Configurar Ruby e Permissões Locais
         run: |
           echo 'export GEM_HOME=$HOME/.gems' >> $GITHUB_ENV
           echo 'export PATH=$HOME/.gems/bin:$PATH' >> $GITHUB_ENV
+          export GEM_HOME=$HOME/.gems
+          export PATH=$HOME/.gems/bin:$PATH
 
       - name: Instalar Dependências Jekyll
         run: |
@@ -37,7 +39,7 @@ jobs:
 
       - name: Build com Jekyll
         run: |
-          mkdir _site
+          mkdir -p _site
           cp -r build/Release/templates/* _site/
 
       - name: Upload artifact
