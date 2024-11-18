@@ -11,14 +11,17 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Criar diretório de trabalho
+# Criar diretório de trabalho no contêiner
 WORKDIR /app
 
-# Copiar o código do projeto para o contêiner
+# Copiar todos os arquivos do projeto para o contêiner
 COPY . .
 
+# Garantir que o arquivo CMakeLists.txt está no diretório correto
+RUN test -f /app/CMakeLists.txt || (echo "CMakeLists.txt não encontrado!" && exit 1)
+
 # Configurar e compilar o projeto com CMake
-RUN cmake -Bbuild -H. -DCMAKE_BUILD_TYPE=Release \
+RUN cmake -Bbuild -S. -DCMAKE_BUILD_TYPE=Release \
     && cmake --build build --config Release
 
 # Expor a porta que o backend utilizará
