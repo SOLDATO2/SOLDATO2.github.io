@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     zlib1g-dev \
     python3 \
     python3-pip \
+    ninja-build \
     && rm -rf /var/lib/apt/lists/*
 
 # Instalar o Conan
@@ -25,11 +26,11 @@ COPY . .
 # Configurar o perfil padrão do Conan
 RUN conan profile detect --force
 
-# Instalar as dependências com o Conan
+# Instalar as dependências com o Conan e gerar o arquivo conan_toolchain.cmake
 RUN conan install . --output-folder=build --build=missing
 
 # Configurar e compilar o projeto com CMake
-RUN cmake -Bbuild -S. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
+RUN cmake -Bbuild -S. -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
     && cmake --build build --config Release
 
 # Expor a porta que o backend utilizará
