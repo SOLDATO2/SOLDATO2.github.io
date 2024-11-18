@@ -22,6 +22,9 @@ WORKDIR /app
 # Copiar todos os arquivos do projeto para o contêiner
 COPY . .
 
+# Configurar o perfil padrão do Conan
+RUN conan profile detect --force
+
 # Instalar as dependências com o Conan
 RUN conan install . --output-folder=build --build=missing
 
