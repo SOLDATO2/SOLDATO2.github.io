@@ -9,7 +9,12 @@ RUN apt-get update && apt-get install -y \
     libboost-all-dev \
     libssl-dev \
     zlib1g-dev \
+    python3 \
+    python3-pip \
     && rm -rf /var/lib/apt/lists/*
+
+# Instalar o Conan
+RUN pip3 install conan
 
 # Criar diretório de trabalho no contêiner
 WORKDIR /app
@@ -17,11 +22,11 @@ WORKDIR /app
 # Copiar todos os arquivos do projeto para o contêiner
 COPY . .
 
-# Garantir que o arquivo CMakeLists.txt está no diretório correto
-RUN test -f /app/CMakeLists.txt || (echo "CMakeLists.txt não encontrado!" && exit 1)
+# Instalar as dependências com o Conan
+RUN conan install . --output-folder=build --build=missing
 
 # Configurar e compilar o projeto com CMake
-RUN cmake -Bbuild -S. -DCMAKE_BUILD_TYPE=Release \
+RUN cmake -Bbuild -S. -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=build/conan_toolchain.cmake \
     && cmake --build build --config Release
 
 # Expor a porta que o backend utilizará
