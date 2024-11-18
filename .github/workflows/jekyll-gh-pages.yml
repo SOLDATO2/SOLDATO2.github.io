@@ -24,7 +24,7 @@ jobs:
       - name: Configurar Pages
         uses: actions/configure-pages@v5
 
-      - name: Configurar Ruby e Permissões Locais
+      - name: Configurar Ambiente Ruby Localmente
         run: |
           echo 'export GEM_HOME=$HOME/.gems' >> $GITHUB_ENV
           echo 'export PATH=$HOME/.gems/bin:$PATH' >> $GITHUB_ENV
@@ -35,7 +35,8 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y ruby-full build-essential zlib1g-dev
-          gem install bundler jekyll
+          gem install --user-install bundler
+          gem install --user-install jekyll
 
       - name: Build com Jekyll
         run: |
