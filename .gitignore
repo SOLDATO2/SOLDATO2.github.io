@@ -1,0 +1,17 @@
+build/.cmake
+build/CMakeFiles
+build/generators
+build/squade_illustrations.dir
+build/x64
+build/ALL_BUILD.vcxproj
+build/ALL_BUILD.vcxproj.filters
+build/cmake_install.cmake
+build/CMakeCache.txt
+build/squade_illustrations.sln
+build/squade_illustrations.vcxproj
+build/squade_illustrations.vcxproj.filters
+build/ZERO_CHECK.vcxproj
+build/ZERO_CHECK.vcxproj.filters
+
+README.md
+.vscode
